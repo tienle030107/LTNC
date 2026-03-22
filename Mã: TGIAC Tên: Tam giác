@@ -1,0 +1,70 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+struct Diem {
+    int x, y;
+
+    friend istream& operator>>(istream& in, Diem& d) {
+        in >> d.x >> d.y;
+        return in;
+    }
+
+    friend ostream& operator<<(ostream& out, Diem d) {
+        out << "(" << d.x << "," << d.y << ")";
+        return out;
+    }
+
+    bool operator==(Diem other) {
+        return x == other.x && y == other.y;
+    }
+
+    double khoangCach(Diem other) {
+        return sqrt(pow(x - other.x, 2) + pow(y - other.y, 2));
+    }
+};
+
+struct TamGiac {
+    Diem a, b, c;
+
+    friend istream& operator>>(istream& in, TamGiac& tg) {
+        in >> tg.a >> tg.b >> tg.c;
+        return in;
+    }
+    friend ostream& operator<<(ostream& out, TamGiac tg) {
+        out << tg.a << tg.b << tg.c;
+        return out;
+    }
+    double chuVi() {
+        return a.khoangCach(b) + b.khoangCach(c) + c.khoangCach(a);
+    }
+
+    double operator+(TamGiac other) {
+        return chuVi() + other.chuVi();
+    }
+
+    bool operator<(TamGiac other) {
+        return chuVi() < other.chuVi();
+    }
+    bool operator==(TamGiac other) {
+        return (a == other.a || a == other.b || a == other.c) &&
+               (b == other.a || b == other.b || b == other.c) &&
+               (c == other.a || c == other.b || c == other.c);
+    }
+};
+int main() {
+    TamGiac tg1, tg2;
+    cin >> tg1 >> tg2;
+    cout << tg1 << endl;
+    cout << tg2 << endl;
+  if (tg1 < tg2) {
+        cout << "TRUE" <<endl;
+    } else {
+        cout << "FALSE" <<endl;
+    }
+    if (tg1 == tg2) {
+        cout << "TRUE" <<endl;
+    } else {
+        cout << "FALSE" <<endl;
+    }
+    return 0;
+}
