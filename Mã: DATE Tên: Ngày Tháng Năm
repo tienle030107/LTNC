@@ -1,0 +1,107 @@
+#include <bits/stdc++.h>
+using namespace std;
+string thuTen[] = {"Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"};
+int soNgayThang[] = {0,31,28,31,30,31,30,31,31,30,31,30,31};
+struct NTN
+{
+    int d, m, y;
+    bool namnhuan()
+    {
+        return (y%4==0 && y%100!=0) || (y%400==0);
+    }
+    int ngayTrongThang()
+    {
+        if (m == 2 && namnhuan()) return 29;
+        return soNgayThang[m];
+    }
+    int thuTrongTuan()
+    {
+        int mm = m, yy = y;
+        if (mm < 3) { mm += 12; yy--; }
+        return (d + 2*mm + (3*(mm+1))/5 + yy + yy/4) % 7;
+    }
+    int ngayThuMay()
+    {
+        int res = d;
+        for (int i = 1; i < m; i++)
+        {
+            res += soNgayThang[i];
+            if (i == 2 && namnhuan()) res++;
+        }
+        return res;
+    }
+    NTN ngayKeTiep()
+    {
+        NTN r;
+        r.d = d + 1;
+        r.m = m;
+        r.y = y;
+        if (r.d > ngayTrongThang())
+        {
+            r.d = 1;
+            r.m++;
+            if (r.m > 12) { r.m = 1; r.y++; }
+        }
+        return r;
+    }
+    bool operator == (NTN x)
+    {
+        return d==x.d && m==x.m && y==x.y;
+    }
+    bool operator < (NTN x)
+    {
+        if (y != x.y) return y < x.y;
+        if (m != x.m) return m < x.m;
+        return d < x.d;
+    }
+    int operator - (NTN x)
+    {
+        NTN a = *this, b = x;
+        if (b < a)
+        {
+            int res = 0;
+            while (!(a == b)) { b = b.ngayKeTiep(); res++; }
+            return res;
+        }
+        else
+        {
+            int res = 0;
+            while (!(a == b)) { a = a.ngayKeTiep(); res++; }
+            return res;
+        }
+    }
+};
+istream& operator >> (istream &in, NTN &x)
+{
+    in >> x.d >> x.m >> x.y;
+    return in;
+}
+ostream& operator << (ostream &out, NTN x)
+{
+    out << (x.d<10?"0":"") << x.d << "/"
+        << (x.m<10?"0":"") << x.m << "/"
+        << x.y;
+    return out;
+}
+int main()
+{
+    NTN n1, n2;
+    cin >> n1 >> n2;
+    NTN kt1 = n1.ngayKeTiep();
+    NTN kt2 = n2.ngayKeTiep();
+    cout << n1 << " " << thuTen[n1.thuTrongTuan()] << " "
+         << n1.ngayThuMay() << " " << kt1 << " "
+         << (n1.namnhuan() ? "TRUE" : "FALSE") <<endl;
+    cout << n2 << " " << thuTen[n2.thuTrongTuan()] << " "
+         << n2.ngayThuMay() << " " << kt2 << " "
+         << (n2.namnhuan() ? "TRUE" : "FALSE") <<endl;
+    cout << (n1.thuTrongTuan()==n2.thuTrongTuan() ? "TRUE" : "FALSE") <<endl;
+    if (n1 < n2)
+        cout << "1 < 2" <<endl;
+    else if (n1 == n2)
+        cout << "1 = 2" <<endl;
+    else
+        cout << "1 > 2" <<endl;
+    cout << (n1 - n2) <<endl;
+    return 0;
+}
