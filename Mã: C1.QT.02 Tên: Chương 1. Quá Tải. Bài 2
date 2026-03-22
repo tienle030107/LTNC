@@ -1,0 +1,77 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+struct sp
+{
+    int a, b;
+
+    sp operator + (sp x)
+    {
+        sp r;
+        r.a = a + x.a;
+        r.b = b + x.b;
+        return r;
+    }
+
+    sp operator - (sp x)
+    {
+        sp r;
+        r.a = a - x.a;
+        r.b = b - x.b;
+        return r;
+    }
+
+    sp operator * (sp x)
+    {
+        sp r;
+        r.a = a*x.a - b*x.b;
+        r.b = a*x.b + b*x.a;
+        return r;
+    }
+
+    bool operator < (sp x)
+    {
+        if (a != x.a) return a < x.a;
+        return b < x.b;
+    }
+};
+
+istream& operator >> (istream &in, sp &x)
+{
+    in >> x.a >> x.b;
+    return in;
+}
+
+ostream& operator << (ostream &out, sp x)
+{
+    out << x.a;
+    if (x.b >= 0) out << "+" << x.b << "*i";
+    else out << x.b << "*i";
+    return out;
+}
+
+int main()
+{
+    int n;
+    cin >> n;
+
+    vector<sp> v(n);
+    for (int i = 0; i < n; i++) cin >> v[i];
+
+    sp mx = v[0], mn = v[0];
+    sp tong = {0,0};
+    sp tich = {1,0};
+
+    for (int i = 0; i < n; i++)
+    {
+        if (mx < v[i]) mx = v[i];
+        if (v[i] < mn) mn = v[i];
+        tong = tong + v[i];
+        tich = tich * v[i];
+    }
+
+    cout << mx << endl;
+    cout << tong << endl;
+    cout << tich << endl;
+    cout << mx - mn;
+}
