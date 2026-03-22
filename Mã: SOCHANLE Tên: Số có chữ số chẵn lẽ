@@ -1,0 +1,57 @@
+#include <bits/stdc++.h>
+using namespace std;
+struct SN
+{
+    int n;
+    int chusochan()
+    {
+        string s = to_string(n);
+        int res = 0, mul = 1;
+        string tmp = "";
+        for (int i = 0; i < s.size(); i++)
+            if (i % 2 == 0) tmp += s[i];
+        for (int i = tmp.size()-1; i >= 0; i--)
+        {
+            res += (tmp[i]-'0') * mul;
+            mul *= 10;
+        }
+        return res;
+    }
+    int tongthanhphan(int loai = 0)
+    {
+        string s = to_string(n);
+        int res = 0;
+        for (int i = 0; i < s.size(); i++)
+            if (i % 2 == loai) res += s[i] - '0';
+        return res;
+    }
+    bool operator < (SN x)
+    {
+        return chusochan() < x.chusochan();
+    }
+};
+istream& operator >> (istream &in, SN &x)
+{
+    in >> x.n;
+    return in;
+}
+ostream& operator << (ostream &out, SN x)
+{
+    out << x.chusochan();
+    return out;
+}
+int main()
+{
+    SN a, b;
+    int loai;
+    cin >> a >> b >> loai;
+    cout << a <<endl;
+    cout << b <<endl;
+    if (a < b)
+        cout << "true" <<endl;
+    else
+        cout << "false" <<endl;
+    cout << a.tongthanhphan(loai) <<endl;
+    cout << b.tongthanhphan(loai) <<endl;
+    return 0;
+}
