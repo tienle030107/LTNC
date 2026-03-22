@@ -1,0 +1,87 @@
+#include <bits/stdc++.h>
+using namespace std;
+struct BacHai
+{
+    int a, b, c;
+    int tinhgt(int x)
+    {
+        return a*x*x + b*x + c;
+    }
+    BacHai operator + (BacHai x)
+    {
+        BacHai r;
+        r.a = a + x.a;
+        r.b = b + x.b;
+        r.c = c + x.c;
+        return r;
+    }
+    bool operator == (BacHai x)
+    {
+        return a == x.a && b == x.b && c == x.c;
+    }
+};
+istream& operator >> (istream &in, BacHai &x)
+{
+    in >> x.a >> x.b >> x.c;
+    return in;
+}
+ostream& operator << (ostream &out, BacHai x)
+{
+    out << x.a << "x^2+" << x.b << "x+" << x.c;
+    return out;
+}
+
+struct BacNhat
+{
+    int a, b;
+    int tinhgt(int x)
+    {
+        return a*x + b;
+    }
+    BacHai operator * (BacNhat x)
+    {
+        BacHai r;
+        r.a = a * x.a;
+        r.b = a * x.b + b * x.a;
+        r.c = b * x.b;
+        return r;
+    }
+};
+istream& operator >> (istream &in, BacNhat &x)
+{
+    in >> x.a >> x.b;
+    return in;
+}
+ostream& operator << (ostream &out, BacNhat x)
+{
+    out << x.a << "x+" << x.b;
+    return out;
+}
+int main()
+{
+    BacHai f1, f2;
+    BacNhat f3, f4;
+    int x0;
+    cin >> f1 >> f2 >> f3 >> f4 >> x0;
+
+    BacHai f5 = f1 + f2;
+    BacHai f6 = f3 * f4;
+    cout << f1 <<endl;
+    cout << f1.tinhgt(x0) <<endl;
+    cout << f2 <<endl;
+    cout << f2.tinhgt(x0) <<endl;
+    cout << f5 <<endl;
+    cout << f5.tinhgt(x0) <<endl;
+    cout << "(" << f3 << ")*(" << f4 << ")=" << f6 <<endl;
+    cout << f6.tinhgt(x0) <<endl;
+    bool e1 = (f1 == f6), e2 = (f2 == f6);
+    if (e1 && e2)
+        cout << "TRUE3" <<endl;
+    else if (e1)
+        cout << "TRUE1" <<endl;
+    else if (e2)
+        cout << "TRUE2" <<endl;
+    else
+        cout << "FALSE" <<endl;
+    return 0;
+}
