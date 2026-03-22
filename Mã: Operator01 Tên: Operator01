@@ -1,0 +1,49 @@
+#include <bits/stdc++.h>
+using namespace std;
+struct ps
+{
+    int tu, mau;
+};
+istream& operator >> (istream& in, ps &p)
+{
+    in>>p.tu>>p.mau;
+    return in;
+}
+ostream& operator << (ostream& out, ps &p)
+{
+    out<<p.tu<<"/"<<p.mau;
+    return out;
+}
+
+bool operator < (ps &a, ps &b)
+{
+    return a.tu*b.mau < b.tu*a.mau;
+}
+
+ps rg (ps &p)
+{
+    int uoc = __gcd(p.tu, p.mau);
+    p.tu /= uoc;
+    p.mau /= uoc;
+    return p;
+}
+int main()
+{
+    int n;
+    cin>>n;
+    ps a[20];   
+    int i = 0;
+    while(cin>>a[i].tu>>a[i].mau)
+    {
+        ++i;
+        if(i >= 20)
+            return 0;
+    }
+    sort(a, a+n);   
+    for(int i=0; i<n; ++i)
+    {
+        a[i] = rg(a[i]);
+        cout<<a[i]<<endl;
+    }
+    return 0;
+}
