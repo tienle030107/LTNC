@@ -1,0 +1,54 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+struct dathuc {
+    int n;        
+    int a[100];   
+};
+istream& operator>>(istream& is, dathuc& p) {
+    is >> p.n;
+    for (int i = p.n; i >= 0; i--) {
+        is >> p.a[i];
+    }
+    return is;
+}
+ostream& operator<<(ostream& os, dathuc p) {
+    bool ok = true;
+    for (int i = p.n; i >= 0; i--) {
+        if (p.a[i] == 0) continue; 
+        if (p.a[i] > 0 && !ok) os << "+";
+        if (p.a[i] < 0) os << "-";
+        int m = abs(p.a[i]);
+        if (m != 1 || i == 0) {
+            os << m;
+        }
+        if (i > 0) {
+            os << "x";
+            if (i > 1) os << "^" << i;
+        }
+        ok= false;
+    }
+    if (ok) os << "0";
+    return os;
+}
+dathuc daoham(dathuc p) {
+    dathuc kq;
+    if (p.n == 0) {
+        kq.n = 0;
+        kq.a[0] = 0;
+        return kq;
+    }
+    kq.n = p.n - 1;
+    for (int i = p.n; i >= 1; i--) {
+        kq.a[i - 1] = p.a[i] * i; 
+    }
+    return kq;
+}
+int main() {
+    dathuc f;
+    cin >> f;
+    dathuc f1 = daoham(f);
+    dathuc f2 = daoham(f1);
+    cout << f << endl << f1 << endl << f2 << endl; 
+    return 0;
+}
