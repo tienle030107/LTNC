@@ -1,0 +1,124 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+struct ps
+{
+    int t, m;
+
+    void rg()
+    {
+        int u = __gcd(t,m);
+        t /= u;
+        m /= u;
+        if (m < 0)
+        {
+            t = -t;
+            m = -m;
+        }
+    }
+};
+
+istream& operator >> (istream &in, ps &x)
+{
+    in >> x.t >> x.m;
+    x.rg();
+    return in;
+}
+
+ostream& operator << (ostream &out, ps x)
+{
+    out << x.t << "/" << x.m;
+    return out;
+}
+
+struct sp
+{
+    int a, b;
+
+    sp operator + (sp x)
+    {
+        sp r;
+        r.a = a + x.a;
+        r.b = b + x.b;
+        return r;
+    }
+
+    sp operator + (int x)
+    {
+        sp r;
+        r.a = a + x;
+        r.b = b;
+        return r;
+    }
+
+    sp operator + (ps x)
+    {
+        sp r;
+        r.a = a + x.t;
+        r.b = b + x.m;
+        return r;
+    }
+};
+
+istream& operator >> (istream &in, sp &x)
+{
+    in >> x.a >> x.b;
+    return in;
+}
+
+ostream& operator << (ostream &out, sp x)
+{
+    if (x.a != 0) out << x.a;
+
+    if (x.b != 0)
+    {
+        if (x.b > 0 && x.a != 0) out << "+";
+
+        if (abs(x.b) == 1) 
+        {
+            if (x.b < 0) out << "-";
+            out << "i";
+        }
+        else
+        {
+            out << x.b << "i";
+        }
+    }
+
+    if (x.a == 0 && x.b == 0) out << 0;
+
+    return out;
+}
+
+int main()
+{
+    sp x;
+    cin >> x;
+
+    char c;
+    cin >> c;
+
+    cout << x << endl;
+
+    if (c == 'i')
+    {
+        int y;
+        cin >> y;
+        cout << y << endl;
+        cout << x + y;
+    }
+    else if (c == 'z')
+    {
+        sp y;
+        cin >> y;
+        cout << y << endl;
+        cout << x + y;
+    }
+    else
+    {
+        ps y;
+        cin >> y;
+        cout << y << endl;
+        cout << x + y;
+    }
+}
