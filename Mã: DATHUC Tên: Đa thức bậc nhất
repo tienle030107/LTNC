@@ -1,0 +1,41 @@
+#include <iostream>
+#include <string>
+using namespace std;
+struct BacNhat {
+    int a, b;
+    friend istream& operator>>(istream& is, BacNhat& bn) {
+        is >> bn.a >> bn.b;
+        return is;
+    }
+    friend ostream& operator<<(ostream& os, const BacNhat& bn) {
+        os << bn.a << "x";
+        if (bn.b >= 0) os << "+" << bn.b;
+        else os << bn.b;
+        return os;
+    }
+    long long tinhGiaTri(int x) const {
+        return (long long)a * x + b;
+    }
+    BacNhat operator+(const BacNhat& khac) {
+        BacNhat kq;
+        kq.a = this->a + khac.a;
+        kq.b = this->b + khac.b;
+        return kq;
+    }
+    bool operator==(const BacNhat& khac) {
+        return (this->a + this->b) == (khac.a + khac.b);
+    }
+};
+int main() {
+    BacNhat f1, f2;
+    int x0;
+    cin >> f1 >> f2 >> x0;
+    cout << f1 << endl;
+    cout << f2 << endl;
+    cout << f1 << "+" << f2 << "=" << (f1 + f2) << endl;
+    cout << f1.tinhGiaTri(x0) << endl;
+    cout << f2.tinhGiaTri(x0) << endl;
+    if (f1 == f2) cout << "TRUE" << endl;
+    else cout << "FALSE" << endl;
+    return 0;
+}
